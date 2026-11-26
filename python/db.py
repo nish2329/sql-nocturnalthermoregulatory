@@ -1,6 +1,5 @@
 """Shared database helpers."""
 import os
-import subprocess
 
 import psycopg2
 
@@ -12,8 +11,9 @@ def connect():
 
 
 def run_sql_file(path):
-    """Run a .sql file through psql so meta-commands and multi-statement files work."""
-    subprocess.run(["psql", DSN, "-v", "ON_ERROR_STOP=1", "-q", "-f", path], check=True)
+    """Run a multi-statement .sql file in one transaction."""
+    with open(path) as f, connect() as conn, conn.cursor() as cur:
+        cur.execute(f.read())
 
 # pandas warns when given a raw DBAPI connection; psycopg2 works fine here.
 import warnings

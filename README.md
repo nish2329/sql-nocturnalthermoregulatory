@@ -22,7 +22,7 @@ This starts Postgres 16, generates the full synthetic dataset, runs every step a
 
 ### Without Docker
 
-Needs PostgreSQL 14+ (with `psql` on your PATH) and Python 3.10+.
+Needs PostgreSQL 14+ and Python 3.10+.
 
 ```bash
 createdb thermo
