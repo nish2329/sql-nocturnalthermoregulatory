@@ -56,6 +56,17 @@ WHERE t.kind = 'thermo_event'
 GROUP BY 1
 """
 
+# Injected events per night on valid nights: what a perfect detector would see.
+INJECTED_RATE = """
+SELECT p.age_group,
+       COUNT(DISTINCT v.sleep_period_id) AS nights,
+       COUNT(t.*) FILTER (WHERE t.kind = 'thermo_event') AS injected
+FROM valid_nights v
+JOIN participants p USING (participant_id)
+LEFT JOIN sim_truth t ON t.sleep_period_id = v.sleep_period_id
+GROUP BY 1
+"""
+
 LABEL = {"thermo_event": "plausible", "warm_arousal": "confounder", "alcohol_night": "confounder",
          "temp_only": "artifact", "hr_only": "artifact", "none": "noise"}
 
@@ -64,6 +75,7 @@ def main():
     with connect() as conn:
         m = pd.read_sql(MATCH, conn)
         r = pd.read_sql(RECALL, conn)
+        inj_rate = pd.read_sql(INJECTED_RATE, conn).set_index("age_group")
     m["label"] = m["kind"].map(LABEL)
 
     out = {"by_kind": m.groupby("kind")["n"].sum().to_dict(),
@@ -77,6 +89,12 @@ def main():
                                                recall=row["detected"] / row["injected"])
     inj, det = r["injected"].sum(), r["detected"].sum()
     out["recall"]["all"] = dict(injected=int(inj), detected=int(det), recall=det / inj)
+
+    rate = inj_rate["injected"] / inj_rate["nights"]
+    out["injected_events_per_night"] = rate.to_dict()
+    out["injected_rate_ratio"] = rate["45-55"] / rate["18-34"]
+    plaus = m[m["label"] == "plausible"].groupby("age_group")["n"].sum() / inj_rate["nights"]
+    out["plausible_only_rate_ratio"] = plaus["45-55"] / plaus["18-34"]
 
     with open(os.path.join(OUT, "truth_check.json"), "w") as f:
         json.dump(out, f, indent=2, default=float)
