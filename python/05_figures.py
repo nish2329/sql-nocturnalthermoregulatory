@@ -40,7 +40,8 @@ def fig1(conn):
         SELECT e.sleep_period_id, e.start_ts, e.end_ts
         FROM events e
         JOIN participants p USING (participant_id)
-        WHERE p.age_group = '45-55'
+        JOIN valid_nights v USING (sleep_period_id)
+        WHERE p.age_group = '45-55' AND v.n_gaps = 0
           AND e.sleep_period_id IN (SELECT sleep_period_id FROM events GROUP BY 1 HAVING COUNT(*) = 1)
           AND e.peak_temp_z BETWEEN 4 AND 7 AND e.duration_min BETWEEN 12 AND 25
         ORDER BY e.sleep_period_id LIMIT 1
@@ -49,6 +50,8 @@ def fig1(conn):
         SELECT ts, skin_temp, heart_rate, temp_med, hr_med
         FROM scored_readings WHERE sleep_period_id = %s ORDER BY ts
     """, conn, params=(pick.sleep_period_id,))
+    # break the line where minutes are missing instead of drawing across the gap
+    night = night.set_index("ts").resample("1min").asfreq().reset_index()
     t0 = night.ts.iloc[0]
     hrs = (night.ts - t0).dt.total_seconds() / 3600
     ev0 = (pick.start_ts - t0).total_seconds() / 3600 - 9 / 60   # trailing window start
@@ -58,10 +61,10 @@ def fig1(conn):
     for ax, col, base, c, lab in [(a, "skin_temp", "temp_med", ORANGE, "Skin temperature (°C)"),
                                  (b, "heart_rate", "hr_med", BLUE, "Heart rate (bpm)")]:
         ax.axvspan(ev0, ev1, color="#f2a600", alpha=0.18, lw=0)
-        ax.plot(hrs, night[base], color=INK2, lw=1.5, ls="--", drawstyle="steps-post")
+        ax.plot(hrs, night[base].ffill(), color=INK2, lw=1.5, ls="--", drawstyle="steps-post")
         ax.plot(hrs, night[col], color=c, lw=1.2)
         ax.set_ylabel(lab)
-        ax.text(hrs.iloc[-1], night[base].iloc[-1], "  personal\n  baseline", color=INK2,
+        ax.text(hrs.iloc[-1], night[base].ffill().iloc[-1], "  personal\n  baseline", color=INK2,
                 va="center", fontsize=8)
     a.text(ev1 + 0.05, a.get_ylim()[1], "flagged event", color=INK, va="top", fontsize=9)
     a.set_title(f"Figure 1. Example night with one flagged event (participant aged 45-55)")
