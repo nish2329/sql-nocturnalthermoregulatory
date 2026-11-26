@@ -109,12 +109,12 @@ def fig3():
         x = (sub.temp_factor - 1) * 100
         if fh == 1.0:
             ax.fill_between(x, sub.ci_low, sub.ci_high, color=INK, alpha=0.08, lw=0)
-        ax.plot(x, sub.rate_ratio, color=c, marker="o", ms=5)
-        ax.text(x.iloc[-1] + 1.5, sub.rate_ratio.iloc[-1], f"HR ≥ {8 * fh:.1f} bpm", color=INK,
-                va="center", fontsize=8)
+        ax.plot(x, sub.rate_ratio, color=c, marker="o", ms=5,
+                label=f"HR rise ≥ {8 * fh:.1f} bpm" + (" (default)" if fh == 1.0 else ""))
+    ax.legend(loc="lower right", frameon=False, fontsize=9, labelcolor=INK)
     ax.axhline(1, color=INK2, lw=1)
     ax.set_xticks([-20, -10, 0, 10, 20], ["-20%\n(z > 1.6)", "-10%", "0\n(z > 2.0)", "+10%", "+20%\n(z > 2.4)"])
-    ax.set_xlim(-23, 31)
+    ax.set_xlim(-23, 23)
     ax.set_ylim(0, max(3.5, ts.ci_high.max() * 1.05))
     ax.set_xlabel("Change in temperature threshold")
     ax.set_ylabel("Rate ratio, 45-55 vs 18-34")
