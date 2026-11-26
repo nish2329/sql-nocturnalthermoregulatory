@@ -1,0 +1,75 @@
+{
+  "counts": {
+    "participants_raw": 600,
+    "nights_raw": 27929,
+    "readings_raw": 11701574,
+    "readings_clean": 11216437,
+    "nights_valid": 26192
+  },
+  "participants": 600,
+  "nights": 26192,
+  "events": 10350,
+  "groups": {
+    "18-34": {
+      "participants": 450,
+      "nights": 17581,
+      "events": 4817,
+      "events_per_night": 0.2739889653603322,
+      "ci_low": 0.2614064718840708,
+      "ci_high": 0.2858095625884616,
+      "pct_nights_with_event": 0.21335532677322108
+    },
+    "45-55": {
+      "participants": 150,
+      "nights": 8611,
+      "events": 5533,
+      "events_per_night": 0.6425502264545349,
+      "ci_low": 0.5839396870398013,
+      "ci_high": 0.7067876174028438,
+      "pct_nights_with_event": 0.43653466496341886
+    }
+  },
+  "crude_rate_ratio": 2.345168264749258,
+  "model": {
+    "rate_ratio": 2.2183904893530877,
+    "ci_low": 2.024511456755912,
+    "ci_high": 2.4308365096328375,
+    "alpha": 0.35553533971751633,
+    "sigma": 0.42077440209084765,
+    "converged": true
+  },
+  "gee": {
+    "rate_ratio": 2.3456931807438943,
+    "ci_low": 2.1209831995397312,
+    "ci_high": 2.5942103168862642
+  },
+  "event_characteristics": {
+    "all": {
+      "duration_min_median": 12.0,
+      "duration_min_iqr": [
+        8.0,
+        15.0
+      ],
+      "peak_temp_z_median": 4.905600785226021,
+      "peak_hr_delta_median": 12.0
+    },
+    "18-34": {
+      "duration_min_median": 11.0,
+      "duration_min_iqr": [
+        7.0,
+        14.0
+      ],
+      "peak_temp_z_median": 3.6913702058873237,
+      "peak_hr_delta_median": 11.0
+    },
+    "45-55": {
+      "duration_min_median": 12.0,
+      "duration_min_iqr": [
+        10.0,
+        15.0
+      ],
+      "peak_temp_z_median": 6.0663000932423365,
+      "peak_hr_delta_median": 13.0
+    }
+  }
+}

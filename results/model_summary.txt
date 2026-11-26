@@ -1,0 +1,15 @@
+Negative binomial mixed model, random intercept per participant
+offset = log(hours slept); reference = age 18-34, winter
+
+term                       coef       se       RR     2.5%    97.5%
+intercept                -3.293    0.037    0.037    0.035    0.040
+age 45-55                 0.797    0.047    2.218    2.025    2.431
+bedtime (h, c.)          -0.016    0.013    0.984    0.959    1.009
+spring                   -0.058    0.041    0.943    0.871    1.022
+summer                   -0.039    0.045    0.962    0.880    1.050
+autumn                   -0.066    0.041    0.936    0.863    1.014
+alpha (NB dispersion) = 0.356
+sigma (participant SD, log scale) = 0.421
+log-likelihood = -20551.3   converged = True
+
+NB GEE (exchangeable) cross-check, age 45-55 rate ratio: 2.35 (2.12 to 2.59)

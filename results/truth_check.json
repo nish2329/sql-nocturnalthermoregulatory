@@ -1,0 +1,89 @@
+{
+  "by_kind": {
+    "alcohol_night": 1620,
+    "hr_only": 295,
+    "none": 53,
+    "temp_only": 280,
+    "thermo_event": 6673,
+    "warm_arousal": 1429
+  },
+  "by_label": {
+    "all": {
+      "artifact": {
+        "n": 575,
+        "share": 0.05555555555555555
+      },
+      "confounder": {
+        "n": 3049,
+        "share": 0.2945893719806763
+      },
+      "noise": {
+        "n": 53,
+        "share": 0.005120772946859903
+      },
+      "plausible": {
+        "n": 6673,
+        "share": 0.6447342995169082
+      }
+    },
+    "18-34": {
+      "artifact": {
+        "n": 377,
+        "share": 0.0782644799667843
+      },
+      "confounder": {
+        "n": 1909,
+        "share": 0.39630475399626325
+      },
+      "noise": {
+        "n": 50,
+        "share": 0.010379904504878554
+      },
+      "plausible": {
+        "n": 2481,
+        "share": 0.5150508615320739
+      }
+    },
+    "45-55": {
+      "artifact": {
+        "n": 198,
+        "share": 0.03578528827037773
+      },
+      "confounder": {
+        "n": 1140,
+        "share": 0.20603650822338695
+      },
+      "noise": {
+        "n": 3,
+        "share": 0.0005422013374299657
+      },
+      "plausible": {
+        "n": 4192,
+        "share": 0.7576360021688053
+      }
+    }
+  },
+  "recall": {
+    "18-34": {
+      "injected": 2734,
+      "detected": 2535,
+      "recall": 0.9272128749085589
+    },
+    "45-55": {
+      "injected": 4580,
+      "detected": 4425,
+      "recall": 0.9661572052401747
+    },
+    "all": {
+      "injected": 7314,
+      "detected": 6960,
+      "recall": 0.9515996718621821
+    }
+  },
+  "injected_events_per_night": {
+    "18-34": 0.15550878789602413,
+    "45-55": 0.5318778306816863
+  },
+  "injected_rate_ratio": 3.420242919244596,
+  "plausible_only_rate_ratio": 3.4497251460419824
+}
