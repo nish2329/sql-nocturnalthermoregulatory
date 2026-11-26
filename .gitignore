@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+*.log
+
+# real data never goes in the repo
+data/raw/
+data/private/
+
+# large intermediates
+results/*.npy
